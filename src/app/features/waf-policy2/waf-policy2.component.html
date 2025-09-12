@@ -1,0 +1,35 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> WAF Policy Summary </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="summary-container">
+      <table class="waf-table">
+        <thead>
+          <tr>
+            <th>WAF Mode</th>
+            <th>Policy</th>
+            <th>WAF Policy %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of wafDetails">
+            <td>{{ item.WAF_POLICY_Enforcement_Mode || "Null" }}</td>
+            <td>{{ item.Value }}</td>
+            <td>{{ item.WAF_Policy }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><strong>Grand Total</strong></td>
+            <td>
+              <strong>{{ wafTotal }}</strong>
+            </td>
+            <td><strong>100%</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

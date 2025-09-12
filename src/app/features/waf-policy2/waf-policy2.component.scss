@@ -1,0 +1,39 @@
+/* waf-policy-summary.component.scss */
+.summary-container {
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.waf-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+
+  th {
+    background: #f0f0f0;
+    font-weight: 600;
+    padding: 0.75rem;
+  }
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tfoot td {
+    background: #f9f9f9;
+    font-weight: bold;
+  }
+}
+
+mat-expansion-panel {
+  border-radius: 12px;
+}
+
+mat-panel-title {
+  font-weight: bold;
+  font-size: 16px;
+}

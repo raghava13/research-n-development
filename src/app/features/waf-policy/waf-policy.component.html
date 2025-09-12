@@ -1,0 +1,186 @@
+<!-- waf-policy.component.html -->
+<div class="waf-policy-container">
+  <mat-card class="waf-policy-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="header-icon">security</mat-icon>
+        WAF Policy Analysis
+      </mat-card-title>
+      <mat-card-subtitle>
+        Web Application Firewall Policy Distribution Summary
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Summary Statistics -->
+      <div class="summary-stats">
+        <div class="stat-item">
+          <span class="stat-label">Total Policies:</span>
+          <span class="stat-value">{{ wafData.WAF.waf_total }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Active Modes:</span>
+          <span class="stat-value">{{ wafSummary.length - 1 }}</span>
+        </div>
+      </div>
+
+      <!-- Expansion Panel for Detailed View -->
+      <mat-expansion-panel
+        class="waf-expansion-panel"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="panel-icon">table_chart</mat-icon>
+            WAF Policy Summary
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ panelOpenState ? "Hide" : "Show" }} detailed breakdown of WAF
+            policies by enforcement mode
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- Policy Summary Table -->
+        <div class="table-container">
+          <table mat-table [dataSource]="wafSummary" class="waf-summary-table">
+            <!-- WAF Mode Column -->
+            <ng-container matColumnDef="mode">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <mat-icon class="column-icon">settings</mat-icon>
+                WAF Mode
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [class]="getModeClass(element.mode)"
+              >
+                <div class="mode-cell">
+                  <mat-icon class="mode-icon">{{
+                    getModeIcon(element.mode)
+                  }}</mat-icon>
+                  <span class="mode-text">{{
+                    getModeDisplayName(element.mode)
+                  }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Policy Count Column -->
+            <ng-container matColumnDef="policy">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="header-cell number-cell"
+              >
+                <mat-icon class="column-icon">numbers</mat-icon>
+                Policy Count
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="number-cell"
+                [class]="getModeClass(element.mode)"
+              >
+                <span class="policy-count">{{ element.policy }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Percentage Column -->
+            <ng-container matColumnDef="percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="header-cell number-cell"
+              >
+                <mat-icon class="column-icon">percent</mat-icon>
+                Percentage
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="number-cell"
+                [class]="getModeClass(element.mode)"
+              >
+                <div class="percentage-cell">
+                  <span class="percentage-text">{{ element.percentage }}</span>
+                  <div
+                    class="percentage-bar"
+                    *ngIf="element.mode !== 'Grand total'"
+                  >
+                    <div
+                      class="percentage-fill"
+                      [style.width.%]="element.percentage"
+                      [class]="getModeClass(element.mode) + '-bar'"
+                    ></div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [class]="getModeClass(row.mode)"
+            ></tr>
+          </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <mat-action-row>
+          <button mat-button color="primary">
+            <mat-icon>refresh</mat-icon>
+            Refresh Data
+          </button>
+          <button mat-button color="accent">
+            <mat-icon>download</mat-icon>
+            Export Report
+          </button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Quick Stats Cards -->
+      <div class="quick-stats">
+        <div class="stat-card blocking-card">
+          <div class="stat-card-header">
+            <mat-icon>block</mat-icon>
+            <span>Blocking Mode</span>
+          </div>
+          <div class="stat-card-value">
+            {{ getPolicyCount("blocking") }}
+          </div>
+          <div class="stat-card-percentage">
+            {{ getPolicyPercentage("blocking") }}
+          </div>
+        </div>
+
+        <div class="stat-card transparent-card">
+          <div class="stat-card-header">
+            <mat-icon>visibility</mat-icon>
+            <span>Transparent Mode</span>
+          </div>
+          <div class="stat-card-value">
+            {{ getPolicyCount("transparent") }}
+          </div>
+          <div class="stat-card-percentage">
+            {{ getPolicyPercentage("transparent") }}
+          </div>
+        </div>
+
+        <div class="stat-card no-policy-card">
+          <div class="stat-card-header">
+            <mat-icon>policy</mat-icon>
+            <span>No Policy</span>
+          </div>
+          <div class="stat-card-value">
+            {{ getPolicyCount("No policy") }}
+          </div>
+          <div class="stat-card-percentage">
+            {{ getPolicyPercentage("No policy") }}
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
