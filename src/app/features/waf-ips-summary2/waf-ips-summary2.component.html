@@ -1,0 +1,83 @@
+<div class="dashboard-container">
+  <div class="security-platform" *ngFor="let platform of platforms">
+    <div class="platform-header">
+      <h2 class="platform-title">{{ platform.name }}</h2>
+      <div class="platform-logo" *ngIf="platform.logo">
+        <img [src]="platform.logo" [alt]="platform.name + ' logo'" />
+      </div>
+    </div>
+
+    <!-- On-Prem Section -->
+    <div class="metric-section">
+      <div class="metric-header">
+        <span class="metric-label">On-Prem</span>
+        <span
+          class="percentage"
+          [class.high-success]="platform.onPremPercentage >= 95"
+          [class.medium-success]="
+            platform.onPremPercentage >= 85 && platform.onPremPercentage < 95
+          "
+        >
+          {{ platform.onPremPercentage }}%
+        </span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="platform.onPremPercentage"
+            [class.high-success]="platform.onPremPercentage >= 95"
+            [class.medium-success]="
+              platform.onPremPercentage >= 85 && platform.onPremPercentage < 95
+            "
+          ></div>
+        </div>
+      </div>
+      <div class="metric-details">
+        <span class="failing-count">{{ platform.onPremFailing }}</span>
+        <span class="total-text"
+          >/ {{ platform.onPremTotal | number }} Failing</span
+        >
+      </div>
+    </div>
+
+    <!-- Cloud Section -->
+    <div class="metric-section">
+      <div class="metric-header">
+        <span class="metric-label">
+          <span class="expand-icon">></span>
+          Cloud
+        </span>
+        <span
+          class="percentage"
+          [class.high-success]="platform.cloudPercentage >= 95"
+          [class.medium-success]="
+            platform.cloudPercentage >= 85 && platform.cloudPercentage < 95
+          "
+          [class.warning]="platform.cloudPercentage < 90"
+        >
+          {{ platform.cloudPercentage }}%
+        </span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="platform.cloudPercentage"
+            [class.high-success]="platform.cloudPercentage >= 95"
+            [class.medium-success]="
+              platform.cloudPercentage >= 85 && platform.cloudPercentage < 95
+            "
+            [class.warning]="platform.cloudPercentage < 90"
+          ></div>
+        </div>
+      </div>
+      <div class="metric-details">
+        <span class="failing-count">{{ platform.cloudFailing | number }}</span>
+        <span class="total-text"
+          >/ {{ platform.cloudTotal | number }} Failing</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

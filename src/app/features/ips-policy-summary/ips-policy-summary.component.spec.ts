@@ -36,3 +36,4 @@ describe('IpsPolicySummaryComponent', () => {
     expect(component.getTotalPercentage()).toBe('100%');
   });
 });
+

@@ -1,0 +1,103 @@
+$status-card-bg: #fff;
+$muted: #9aa0a6;
+$good: #2f8f44; // green used in screenshot
+$warn: #d07a00; // orange used for Qualys cloud
+$fail: #c0392b; // red for failing counts
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  align-items: start;
+  padding: 8px;
+}
+
+.card {
+  background: $status-card-bg;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo {
+    height: 26px;
+    width: auto;
+  }
+  h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.label {
+  width: 70px;
+  color: $muted;
+}
+
+.progress-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-bg {
+  flex: 1;
+  height: 10px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, $good 0%, $good 100%);
+  transition: width 600ms ease;
+}
+
+.percent {
+  width: 40px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.failing {
+  color: $fail;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+// allow customizing per product (e.g. Qualys cloud orange)
+.card:nth-child(2) .progress-bg .progress-bar {
+  /* If you want Qualys to use different color for cloud, add a class or set via Input — for demo keep green */
+}
+
+.divider {
+  height: 18px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  .label {
+    width: 60px;
+  }
+  .percent {
+    width: 36px;
+  }
+}

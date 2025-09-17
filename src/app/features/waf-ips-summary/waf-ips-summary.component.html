@@ -1,0 +1,50 @@
+<div class="status-grid">
+  @for (product of products; track product.name) {
+  <div class="card">
+    <div class="card-header">
+      <div class="title">
+        @if (product.logo) {
+        <img [src]="product.logo" alt="{{ product.name }} logo" class="logo" />
+        }
+        <h3>{{ product.name }}</h3>
+      </div>
+    </div>
+
+    <div class="status-row">
+      <div class="label">On-Prem</div>
+      <div class="progress-wrap">
+        <div class="progress-bg">
+          <div
+            class="progress-bar"
+            [style.width]="barWidth(product.onPrem.percent)"
+          ></div>
+        </div>
+        <div class="percent">{{ product.onPrem.percent }}%</div>
+      </div>
+    </div>
+    <div class="failing">
+      {{ product.onPrem.failing | number }} /
+      {{ product.onPrem.total | number }} Failing
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="status-row">
+      <div class="label">Cloud</div>
+      <div class="progress-wrap">
+        <div class="progress-bg">
+          <div
+            class="progress-bar"
+            [style.width]="barWidth(product.cloud.percent)"
+          ></div>
+        </div>
+        <div class="percent">{{ product.cloud.percent }}%</div>
+      </div>
+    </div>
+    <div class="failing">
+      {{ product.cloud.failing | number }} /
+      {{ product.cloud.total | number }} Failing
+    </div>
+  </div>
+  }
+</div>

@@ -50,3 +50,4 @@ export class IpsPolicySummaryComponent implements OnInit {
     return '100%';
   }
 }
+

@@ -28,5 +28,19 @@ export const routes: Routes = [
         (m) => m.IpsPolicySummaryComponent
       ),
   },
+  {
+    path: 'waf-ips-summary',
+    loadComponent: () =>
+      import('./features/waf-ips-summary/waf-ips-summary.component').then(
+        (m) => m.WafIpsSummaryComponent
+      ),
+  },
+  {
+    path: 'waf-ips-summary2',
+    loadComponent: () =>
+      import('./features/waf-ips-summary2/waf-ips-summary2.component').then(
+        (m) => m.WafIpsSummary2Component
+      ),
+  },
   { path: '**', redirectTo: 'home' },
 ];
