@@ -1,0 +1,60 @@
+src/
+├── app/
+│   ├── core/                		# Singleton services, interceptors, guards
+│   │   ├── services/
+│   │   ├── interceptors/
+│   │   └── guards/
+│   ├── shared/             		# Shared components, pipes, directives
+│   │   ├── components/
+│   │   ├── pipes/
+│   │   ├── directives/
+│   │   └── models/
+│   ├── features/            		# Feature modules (Lazy-loaded)
+│   │   ├── dashboard/
+│   │   │   ├── components/
+│   │   │   ├── services/
+│   │   │   ├── models/
+│   │   │   └── dashboard.routes.ts	# Feature routes (Lazy-loaded)
+│   │   ├── users/
+│   │   │   ├── components/
+│   │   │   ├── services/
+│   │   │   ├── models/
+│   │   │   └── users.routes.ts		# Feature routes (Lazy-loaded)
+│   │   └── products/
+│   │       ├── components/
+│   │       ├── services/
+│   │       ├── models/
+│   │       └── products.routes.ts	# Feature routes (Lazy-loaded)
+│   ├── layouts/           			# Layout components
+│   │   ├── header/
+│   │   ├── sidebar/
+│   │   ├── footer/
+│   │   └── layouts.module.ts
+│   ├── auth/                    	# Authentication related
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── guards/
+│   │   └── auth.module.ts
+│   ├── app.component.html			# Root component
+│   ├── app.component.scss
+│   ├── app.component.ts
+│   ├── app.component.spec.ts
+│   ├── app.component.scss
+│   ├── app.config.ts   			# Root config
+│   └── app.routes.ts           	# Main routes
+├── assets/                     	# Static assets
+│   ├── images/
+│   ├── icons/
+│   ├── fonts/
+│   └── i18n/                   	# Translation files
+├── styles/                       	# Global styles
+│   ├── _variables.scss
+│   ├── _mixins.scss
+│   ├── _base.scss
+│   └── styles.scss
+├── environments/               	# Environment configurations
+│   ├── environment.ts
+│   ├── environment.prod.ts
+│   └── environment.dev.ts
+├── index.html						# Index file
+└── main.ts							# main file
