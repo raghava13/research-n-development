@@ -8,39 +8,14 @@ export const routes: Routes = [
       import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
-    path: 'waf-policy',
+    path: 'scm-1',
     loadComponent: () =>
-      import('./features/waf-policy/waf-policy.component').then(
-        (m) => m.WafPolicyComponent,
-      ),
+      import('./features/scm1/scm1.component').then((m) => m.Scm1Component),
   },
   {
-    path: 'waf-policy2',
+    path: 'scm-2',
     loadComponent: () =>
-      import('./features/waf-policy2/waf-policy2.component').then(
-        (m) => m.WafPolicy2Component,
-      ),
-  },
-  {
-    path: 'ips-policy-summary',
-    loadComponent: () =>
-      import('./features/ips-policy-summary/ips-policy-summary.component').then(
-        (m) => m.IpsPolicySummaryComponent,
-      ),
-  },
-  {
-    path: 'waf-ips-summary',
-    loadComponent: () =>
-      import('./features/waf-ips-summary/waf-ips-summary.component').then(
-        (m) => m.WafIpsSummaryComponent,
-      ),
-  },
-  {
-    path: 'waf-ips-summary2',
-    loadComponent: () =>
-      import('./features/waf-ips-summary2/waf-ips-summary2.component').then(
-        (m) => m.WafIpsSummary2Component,
-      ),
+      import('./features/scm2/scm2.component').then((m) => m.Scm2Component),
   },
   { path: '**', redirectTo: 'home' },
 ];
