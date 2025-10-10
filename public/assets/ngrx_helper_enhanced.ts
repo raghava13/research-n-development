@@ -11,7 +11,15 @@ import {
   Store,
 } from '@ngrx/store';
 import { produce } from 'immer';
-import { catchError, exhaustMap, filter, map, Observable, of, switchMap, withLatestFrom, EMPTY } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  Observable,
+  of,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 
 /** Models */
 export interface DefaultState<T> {
@@ -53,7 +61,10 @@ export interface EffectMessageConfig {
 /** Action Helper */
 export function createLoadActions<T>(feature: string) {
   return {
-    load: createAction(`[${feature}] Load`, props<{ params?: any; forceReload?: boolean }>()),
+    load: createAction(
+      `[${feature}] Load`,
+      props<{ params?: any; forceReload?: boolean }>()
+    ),
     loadSuccess: createAction(
       `[${feature}] Load Success`,
       props<{ data: T; message?: string }>()
@@ -62,6 +73,7 @@ export function createLoadActions<T>(feature: string) {
       `[${feature}] Load Failure`,
       props<{ error: string }>()
     ),
+    loadCancelled: createAction(`[${feature}] Load Cancelled`),
     reset: createAction(`[${feature}] Reset`),
   };
 }
@@ -163,6 +175,13 @@ export function createDefaultReducerHandlers<TState>(
           ...(state[stateKey] as any),
           isLoading: false,
           error,
+        },
+      })),
+      on(actions.loadCancelled, (state: TState) => ({
+        ...state,
+        [stateKey]: {
+          ...(state[stateKey] as any),
+          isLoading: false,
         },
       }))
     );
@@ -286,7 +305,8 @@ export function createLoadEffect<TResponse, TState = any>(
   selector?: (state: TState) => any,
   messageConfig?: EffectMessageConfig
 ) {
-  const defaultSuccessMessage = messageConfig?.successMessage || 'Data loaded successfully';
+  const defaultSuccessMessage =
+    messageConfig?.successMessage || 'Data loaded successfully';
   const defaultFailureMessage = messageConfig?.failureMessage || 'Load failed';
 
   if (!store || !selector) {
@@ -295,11 +315,15 @@ export function createLoadEffect<TResponse, TState = any>(
       ofType(actions.load),
       switchMap(({ params }) =>
         loadService(params).pipe(
-          map((data: TResponse) => 
+          map((data: TResponse) =>
             actions.loadSuccess({ data, message: defaultSuccessMessage })
           ),
-          catchError(error =>
-            of(actions.loadFailure({ error: error.message || defaultFailureMessage }))
+          catchError((error) =>
+            of(
+              actions.loadFailure({
+                error: error.message || defaultFailureMessage,
+              })
+            )
           )
         )
       )
@@ -313,15 +337,19 @@ export function createLoadEffect<TResponse, TState = any>(
     switchMap(([{ params, forceReload }, state]) => {
       // Check if data already exists and forceReload is not true
       if (state?.data !== null && !forceReload) {
-        return EMPTY;
+        return of(actions.loadCancelled());
       }
 
       return loadService(params).pipe(
-        map((data: TResponse) => 
+        map((data: TResponse) =>
           actions.loadSuccess({ data, message: defaultSuccessMessage })
         ),
-        catchError(error =>
-          of(actions.loadFailure({ error: error.message || defaultFailureMessage }))
+        catchError((error) =>
+          of(
+            actions.loadFailure({
+              error: error.message || defaultFailureMessage,
+            })
+          )
         )
       );
     })
@@ -334,18 +362,23 @@ export function createAddEffect<TRequest, TResponse = void>(
   addService: (payload: TRequest) => Observable<TResponse>,
   messageConfig?: EffectMessageConfig
 ) {
-  const defaultSuccessMessage = messageConfig?.successMessage || 'Item added successfully';
+  const defaultSuccessMessage =
+    messageConfig?.successMessage || 'Item added successfully';
   const defaultFailureMessage = messageConfig?.failureMessage || 'Add failed';
 
   return actions$.pipe(
     ofType(actions.add),
     exhaustMap(({ payload }) =>
       addService(payload).pipe(
-        map((item: TResponse) => 
+        map((item: TResponse) =>
           actions.addSuccess({ item, message: defaultSuccessMessage })
         ),
-        catchError(error =>
-          of(actions.addFailure({ error: error.message || defaultFailureMessage }))
+        catchError((error) =>
+          of(
+            actions.addFailure({
+              error: error.message || defaultFailureMessage,
+            })
+          )
         )
       )
     )
@@ -361,17 +394,19 @@ export function createUpdateEffect<TRequest, TResponse = void>(
   ) => Observable<TResponse>,
   messageConfig?: EffectMessageConfig
 ) {
-  const defaultSuccessMessage = messageConfig?.successMessage || 'Item updated successfully';
-  const defaultFailureMessage = messageConfig?.failureMessage || 'Update failed';
+  const defaultSuccessMessage =
+    messageConfig?.successMessage || 'Item updated successfully';
+  const defaultFailureMessage =
+    messageConfig?.failureMessage || 'Update failed';
 
   return actions$.pipe(
     ofType(actions.update),
     exhaustMap(({ id, payload }) =>
       updateService(id, payload).pipe(
-        map((item: TResponse) => 
+        map((item: TResponse) =>
           actions.updateSuccess({ item, message: defaultSuccessMessage })
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             actions.updateFailure({
               error: error.message || defaultFailureMessage,
@@ -389,17 +424,19 @@ export function createDeleteEffect<TRequest, TResponse = void>(
   deleteService: (id: TRequest) => Observable<TResponse>,
   messageConfig?: EffectMessageConfig
 ) {
-  const defaultSuccessMessage = messageConfig?.successMessage || 'Item deleted successfully';
-  const defaultFailureMessage = messageConfig?.failureMessage || 'Delete failed';
+  const defaultSuccessMessage =
+    messageConfig?.successMessage || 'Item deleted successfully';
+  const defaultFailureMessage =
+    messageConfig?.failureMessage || 'Delete failed';
 
   return actions$.pipe(
     ofType(actions.delete),
     exhaustMap(({ id }) =>
       deleteService(id).pipe(
-        map(() => 
+        map(() =>
           actions.deleteSuccess({ id, message: defaultSuccessMessage })
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             actions.deleteFailure({
               error: error.message || defaultFailureMessage,
