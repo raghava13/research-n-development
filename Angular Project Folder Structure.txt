@@ -10,6 +10,10 @@ src/
 │   │   ├── directives/
 │   │   └── models/
 │   ├── features/            		# Feature modules (Lazy-loaded)
+│   │   ├── shared/
+│   │   │   ├── components/
+│   │   │   ├── services/
+│   │   │   └── models/
 │   │   ├── dashboard/
 │   │   │   ├── components/
 │   │   │   ├── services/
@@ -25,7 +29,7 @@ src/
 │   │       ├── services/
 │   │       ├── models/
 │   │       └── products.routes.ts	# Feature routes (Lazy-loaded)
-│   ├── layouts/           			# Layout components
+│   ├── layouts/           		# Layout components
 │   │   ├── header/
 │   │   ├── sidebar/
 │   │   ├── footer/
@@ -35,12 +39,12 @@ src/
 │   │   ├── services/
 │   │   ├── guards/
 │   │   └── auth.module.ts
-│   ├── app.component.html			# Root component
+│   ├── app.component.html		# Root component
 │   ├── app.component.scss
 │   ├── app.component.ts
 │   ├── app.component.spec.ts
 │   ├── app.component.scss
-│   ├── app.config.ts   			# Root config
+│   ├── app.config.ts   		# Root config
 │   └── app.routes.ts           	# Main routes
 ├── assets/                     	# Static assets
 │   ├── images/
@@ -56,5 +60,5 @@ src/
 │   ├── environment.ts
 │   ├── environment.prod.ts
 │   └── environment.dev.ts
-├── index.html						# Index file
-└── main.ts							# main file
+├── index.html				# Index file
+└── main.ts				# main file
